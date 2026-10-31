@@ -1,6 +1,8 @@
 [package]
 name = "powder-compass"
 version = "0.1.0"
+description = "A tiny, friendly Rust CLI that scores a ski or snowboard day"
+license = "MIT"
 edition = "2024"
 
 [dependencies]
