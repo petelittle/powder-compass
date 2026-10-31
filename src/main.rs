@@ -59,6 +59,43 @@ fn visibility_points(visibility: i32) -> i32 {
     }
 }
 
+fn verdict(score: i32, temperature_c: i32, wind_kmh: i32) -> &'static str {
+    if temperature_c <= -30 || wind_kmh >= 70 {
+        "Red-flag conditions — official advice first"
+    } else {
+        match score {
+            85..=100 => "Champagne-powder alert",
+            70..=84 => "A proper powder day",
+            55..=69 => "Worth the early alarm",
+            40..=54 => "A mixed mountain bag",
+            25..=39 => "Cruisy, character-building day",
+            _ => "Hot-chocolate conditions",
+        }
+    }
+}
+
+fn practical_tip(snow_cm: i32, temperature_c: i32, wind_kmh: i32, visibility: i32) -> &'static str {
+    if temperature_c <= -30 {
+        "Do not treat this as a normal snow day: check official warnings, cover every bit of skin, and seriously consider staying warm indoors."
+    } else if wind_kmh >= 70 {
+        "Extreme wind: expect major lift disruption and check the resort's status before travelling."
+    } else if wind_kmh >= 36 {
+        "Strong wind is the headline: check lift status before travelling, and pack a face covering."
+    } else if temperature_c <= -18 {
+        "It is seriously cold: take your warmest layers and plan a hot-drink stop."
+    } else if temperature_c >= 3 {
+        "Warm snow can turn heavy: relaxed pacing will help this afternoon."
+    } else if visibility <= 2 {
+        "Low visibility: low-light goggles and familiar runs are your friends."
+    } else if snow_cm >= 20 {
+        "There is plenty of fresh snow: arrive early before the best lines are tracked out."
+    } else if snow_cm == 0 {
+        "No fresh snow: a good day for carving practice, technique drills, and hunting sunny groomers."
+    } else {
+        "Balanced conditions: start with the runs you love and follow the best light."
+    }
+}
+
 fn main() {
     println!("Powder Compass ❄️");
     println!("A tiny snow-day scorecard for skiers and snowboarders.");
@@ -92,4 +129,14 @@ fn main() {
     println!("Visibility: {visibility}/5");
     println!();
     println!("Score: {score}/100");
+    println!(
+        "Verdict: {}",
+        verdict(score, temperature_c, wind_kmh)
+    );
+    println!(
+        "Tip: {}",
+        practical_tip(snow_cm, temperature_c, wind_kmh, visibility)
+    );
+    println!();
+    println!("Fun planning only — always check the resort's official conditions and avalanche information before you go.");
 }
