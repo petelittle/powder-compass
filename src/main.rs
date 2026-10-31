@@ -129,14 +129,52 @@ fn main() {
     println!("Visibility: {visibility}/5");
     println!();
     println!("Score: {score}/100");
-    println!(
-        "Verdict: {}",
-        verdict(score, temperature_c, wind_kmh)
-    );
+    println!("Verdict: {}", verdict(score, temperature_c, wind_kmh));
     println!(
         "Tip: {}",
         practical_tip(snow_cm, temperature_c, wind_kmh, visibility)
     );
     println!();
-    println!("Fun planning only — always check the resort's official conditions and avalanche information before you go.");
+    println!(
+        "Fun planning only — always check the resort's official conditions and avalanche information before you go."
+    );
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn deep_fresh_snow_gets_top_snow_points() {
+        assert_eq!(snow_points(30), 40);
+    }
+
+    #[test]
+    fn strong_wind_gets_no_wind_points() {
+        assert_eq!(wind_points(80), 0);
+    }
+
+    #[test]
+    fn dream_conditions_score_96_and_earn_top_verdict() {
+        let score =
+            snow_points(24) + temperature_points(-8) + wind_points(8) + visibility_points(5);
+
+        assert_eq!(score, 96);
+        assert_eq!(verdict(score, -8, 8), "Champagne-powder alert");
+    }
+
+    #[test]
+    fn extreme_cold_overrides_a_respectable_score() {
+        assert_eq!(
+            verdict(68, -59, 5),
+            "Red-flag conditions — official advice first"
+        );
+    }
+
+    #[test]
+    fn warm_day_without_snow_scores_36() {
+        let score = snow_points(0) + temperature_points(5) + wind_points(5) + visibility_points(3);
+
+        assert_eq!(score, 36);
+    }
 }
